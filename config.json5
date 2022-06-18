@@ -1,3 +1,11 @@
 {
-    "destination":""
+    "destination":"./output",  // The directory used to save all data
+    "region":"ch",  // Server region, in {ch,tw,kr,us,jp}
+    "download_base_assets":true, // Whether to download base assets (which are required to open the game)
+    "download_add_assets":true, // Whether to download additional assets (which are required for the full gameplay experience)
+    "download_passivity_assets":true, // Whether to download optional assets (hd picture, voice, etc.)
+    "timeout":30, // Timeout before retrying
+    "max_retry":10, // Max retry times
+    "processes":16, // Number of simutaneous processes
+    "log_level":"INFO", // log level, only affect downloader.log
 }
