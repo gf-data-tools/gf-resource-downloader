@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - "main"
+    paths-ignore:
+      - ".github/**"
+      - "resdata.zip"
+      
+
   workflow_dispatch:
 
 jobs:
