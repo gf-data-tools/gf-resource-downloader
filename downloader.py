@@ -4,9 +4,10 @@ from urllib import request
 import logging
 import socket
 from socket import timeout
-from multiprocessing import Pool
+from multiprocessing import Pool,freeze_support
 from tqdm import tqdm
 from pathlib import Path
+import zipfile
 from urllib.error import URLError
 os.chdir(Path(__file__).resolve().parent)
 
@@ -55,14 +56,15 @@ def multiprocess_download(tasks, processes=16):
         pass
 
 if __name__=='__main__':
+    freeze_support()
     out_dir = config['destination']
     os.makedirs(out_dir,exist_ok=True)
 
-    resdata_url = f'https://raw.githubusercontent.com/ZeroRin/gfl-data-miner-python/main/data/{config["region"]}/resdata.json'
-    print('Fetching resdata from github')
-    logger.info('Fetching resdata from github')
-    response = request.urlopen(resdata_url)
-    data = response.read()
+    resdata_url = f'https://raw.githubusercontent.com/gf-data-tools/gf-resource-downloader/main/resdata.zip'
+    print('Downloading compressed resdata from github')
+    logger.info('Downloading compressed resdata from github')
+    download(resdata_url, './resdata.zip')
+    data = zipfile.ZipFile('resdata.zip').read(f'{config["region"]}_resdata.json')
     res_data = pyjson5.loads(data.decode('utf-8'))
     resurl = res_data['resUrl']
 
