@@ -59,7 +59,7 @@ if __name__=='__main__':
     freeze_support()
     out_dir = config['destination']
     os.makedirs(out_dir,exist_ok=True)
-    resdata_url = f'https://raw.githubusercontent.com/gf-data-tools/gf-resource-downloader/main/resdata.zip'
+    resdata_url = config['resdata_url']
     if config['download_resdata'] is True:
         print('Downloading compressed resdata from github')
         logger.info('Downloading compressed resdata from github')
