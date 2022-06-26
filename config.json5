@@ -9,4 +9,5 @@
     "processes":16, // Number of simutaneous processes
     "log_level":"INFO", // log level, only affect downloader.log
     "download_resdata":true, // Whether to download resdata.zip from github repo. If false, you need to download it manually and put under this directory.
+    "resdata_url":"https://raw.githubusercontent.com/gf-data-tools/gf-resource-downloader/main/resdata.zip", // Where to download resdata.zip, by default the original repo.
 }
