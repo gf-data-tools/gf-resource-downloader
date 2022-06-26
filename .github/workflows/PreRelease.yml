@@ -18,7 +18,7 @@ jobs:
         path: ./
     
     - name: test
-      run: cd dist/windows/main; zip -r ../../../resource_downloader.zip ./;cd ../../.. 
+      run: cd dist/windows/downloader; zip -r ../../../resource_downloader.zip ./;cd ../../.. 
 
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
