@@ -59,11 +59,15 @@ if __name__=='__main__':
     freeze_support()
     out_dir = config['destination']
     os.makedirs(out_dir,exist_ok=True)
-
     resdata_url = f'https://raw.githubusercontent.com/gf-data-tools/gf-resource-downloader/main/resdata.zip'
-    print('Downloading compressed resdata from github')
-    logger.info('Downloading compressed resdata from github')
-    download(resdata_url, './resdata.zip')
+    if config['download_resdata'] is True:
+        print('Downloading compressed resdata from github')
+        logger.info('Downloading compressed resdata from github')
+        download(resdata_url, './resdata.zip')
+    elif not os.path.exists('./resdata.zip'):
+        raise FileNotFoundError(f'./resdata.zip does not exist, you should download it from {resdata_url} or set download_resdata to true in config')
+    else:
+        logging.warning('Using local resdata.zip, please ensure that it is up-to-date')
     data = zipfile.ZipFile('resdata.zip').read(f'{config["region"]}_resdata.json')
     res_data = pyjson5.loads(data.decode('utf-8'))
     resurl = res_data['resUrl']
