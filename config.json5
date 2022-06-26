@@ -8,4 +8,5 @@
     "max_retry":10, // Max retry times
     "processes":16, // Number of simutaneous processes
     "log_level":"INFO", // log level, only affect downloader.log
+    "download_resdata":true, // Whether to download resdata.zip from github repo. If false, you need to download it manually and put under this directory.
 }
