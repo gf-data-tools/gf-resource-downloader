@@ -24,13 +24,15 @@ sh.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s'))
 logger.addHandler(sh)
 logger.setLevel('DEBUG')
 
+downloader = MultiProcessDownloader(n_jobs=config['processes'],timeout=config['timeout'],retry=config['max_retry'])
+
 out_dir = config['destination']
 os.makedirs(out_dir,exist_ok=True)
 resdata_url = config['resdata_url']
 if config['download_resdata'] is True:
     print('Downloading compressed resdata from github')
     logger.info('Downloading compressed resdata from github')
-    download(resdata_url, './resdata.zip', config['max_retry'])
+    downloader.download([[resdata_url, './resdata.zip']])
 elif not os.path.exists('./resdata.zip'):
     raise FileNotFoundError(f'./resdata.zip does not exist, you should download it from {resdata_url} or set download_resdata to true in config')
 else:
@@ -77,6 +79,5 @@ for bundle in res_data['bytesData']:
 
 print('Start downloading')
 logger.info('Start downloading')
-downloader = MultiProcessDownloader(n_jobs=config['processes'],timeout=config['timeout'],retry=config['max_retry'])
 downloader.download(tasks)
     
