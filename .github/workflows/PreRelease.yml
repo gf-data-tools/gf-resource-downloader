@@ -16,11 +16,6 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    # - name: PyInstaller Windows
-    #   uses: JackMcKew/pyinstaller-action-windows@main
-    #   with:
-    #     path: ./
-    
     - name: Setup Python
       uses: actions/setup-python@v2.2.2
       with:
@@ -32,10 +27,8 @@ jobs:
       run: |
         pyinstaller downloader.spec
         dir dist
-    
-    - name: test
+    - name: Create zip file
       run: cd dist/downloader; tar -c -f ../../resource_downloader.zip ./*;cd ../.. 
-
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
