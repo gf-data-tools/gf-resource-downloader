@@ -1,0 +1,74 @@
+{
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+      "simple": {
+        "format": "[%(asctime)s] [%(name)s:%(lineno)d %(levelname)s] %(message)s",
+        "datefmt": "%Y-%m-%d %H:%M:%S"
+      },
+      "brief": {
+        "format": "[%(asctime)s] %(levelname)s: %(message)s",
+        "datefmt": "%Y-%m-%d %H:%M:%S"
+      }
+    },
+   
+    "handlers": {
+      "console": {
+        "class": "logging.StreamHandler",
+        "level": "WARNING",
+        "formatter": "brief",
+        "stream": "ext://sys.stdout"
+      },
+   
+      "error_file_handler": {
+        "class": "logging.handlers.TimedRotatingFileHandler",
+        "level": "DEBUG",
+        "formatter": "simple",
+        "filename": "downloader.log",
+        "backupCount": 15,
+        "encoding": "utf8",
+        "when": "midnight"
+      },
+   
+      "buffer_stream_handler": {
+        "class": "logger_tt.handlers.StreamHandlerWithBuffer",
+        "level": "INFO",
+        "formatter": "simple",
+        "stream": "ext://sys.stdout",
+        "buffer_time": 0.5,
+        "buffer_lines": 0,
+        "debug": false
+       }
+    },
+   
+    "loggers": {
+      "urllib3": {
+        "level": "ERROR",
+        "handlers": ["console", "error_file_handler"],
+        "propagate": false
+      }
+    },
+   
+    "root": {
+      "level": "DEBUG",
+      "handlers": ["console", "error_file_handler"]
+    },
+   
+    "logger_tt": {
+      "suppress": ["exchangelib"],
+      "suppress_level_below": "WARNING",
+      "capture_print": false,
+      "strict": false,
+      "guess_level": false,
+      "full_context": 0,
+      "use_multiprocessing": true,
+      "limit_line_length": 1000,
+      "analyze_raise_statement": false,
+      "default_logger_formats": {
+         "normal": ["%(name)s", "%(filename)s"],
+         "thread": ["%(message)s", "%(threadName)s %(message)s"],
+         "multiprocess": ["%(message)s", "%(processName)s %(message)s"],
+         "both": ["%(message)s", "%(processName)s %(threadName)s %(message)s"]
+      }
+    }
+   }
