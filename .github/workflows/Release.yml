@@ -22,7 +22,7 @@ jobs:
         pyinstaller downloader.spec
         dir dist
     - name: Create zip file
-      run: cd dist/downloader; tar -c -f ../../resource_downloader.zip ./*;cd ../.. 
+      run: cd dist/downloader; tar -a -c -f ../../resource_downloader.zip ./*;cd ../.. 
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
