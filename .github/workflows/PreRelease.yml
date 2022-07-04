@@ -28,7 +28,7 @@ jobs:
         pyinstaller downloader.spec
         dir dist
     - name: Create zip file
-      run: cd dist/downloader; tar -a -c -f ../../resource_downloader.zip ./*;cd ../.. 
+      run: Compress-Archive -Path dist/downloader/* -DestinationPath resource_downloader.zip -Force
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
