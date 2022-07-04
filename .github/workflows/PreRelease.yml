@@ -2,13 +2,8 @@ name: PreReleases
 
 on: 
   push:
-    branches:
-      - "main"
     paths-ignore:
-      - ".github/**"
       - "resdata.zip"
-      
-
   workflow_dispatch:
 
 jobs:
@@ -33,7 +28,6 @@ jobs:
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "latest"
-        prerelease: true
-        title: "Development Build"
+        prerelease: "${{ !contains(github.ref, 'v') }}"
         files: |
           ./resource_downloader.zip
