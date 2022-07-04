@@ -2,13 +2,8 @@ name: PreReleases
 
 on: 
   push:
-    branches:
-      - "main"
     paths-ignore:
-      - ".github/**"
       - "resdata.zip"
-      
-
   workflow_dispatch:
 
 jobs:
@@ -29,11 +24,20 @@ jobs:
         dir dist
     - name: Create zip file
       run: Compress-Archive -Path dist/downloader/* -DestinationPath resource_downloader.zip -Force
-    - uses: "marvinpinto/action-automatic-releases@latest"
+    - name: Pre-Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      if: "!contains(github.ref, 'refs/tags/v')"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "latest"
         prerelease: true
-        title: "Development Build"
+        files: |
+          ./resource_downloader.zip
+    - name: Tagged Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      if: "contains(github.ref, 'refs/tags/v')"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
         files: |
           ./resource_downloader.zip
