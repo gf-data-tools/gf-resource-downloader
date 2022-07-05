@@ -5,18 +5,20 @@ from pathlib import Path
 import zipfile
 from logger_tt import logger,setup_logging
 import logger_tt
-from gf_utils.download import MultiProcessDownloader
-
-
-if __name__=='__main__':
-    os.chdir(Path(__file__).resolve().parent)
-    freeze_support()
+from gf_utils.download import MultiProcessDownloader, download
+    
+os.chdir(Path(__file__).resolve().parent)
+def setup_mp_logging():
     setup_logging(config_path='logger_tt/log_config.json')
 
+if __name__=='__main__':
+    freeze_support()
     with open('config.json5',encoding='utf-8') as f:
         config = pyjson5.load(f)
 
     downloader = MultiProcessDownloader(n_jobs=config['processes'],timeout=config['timeout'],retry=config['max_retry'])
+    setup_mp_logging()
+    downloader.pool.starmap(setup_mp_logging,[() for _ in range(downloader.n_jobs)])
 
     out_dir = config['destination']
     os.makedirs(out_dir,exist_ok=True)
