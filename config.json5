@@ -1,12 +1,13 @@
 {
     "destination":"./output",  // The directory used to save all data
-    "region":"ch",  // Server region, in {ch,tw,kr,us,jp}
+    "region":"ch",  // Server region, in {ch,tw,kr,us,jp}, the program will read resdata/{$REGION}_resdata.json to find assets
+    "download_resdata":true, // Whether to download resdata.zip from github repo. If false, you need to manually prepare ./resdata/{$REGION}_resdata.json
+    "resdata_url":"https://raw.githubusercontent.com/gf-data-tools/gf-resource-downloader/main/resdata.zip", // Where to download resdata.zip, by default the original repo.
+    "use_abname":false,  // Whether to use assetBundleName instead of resname, i.e. character_06typesmg_hd.ab instead of a96bd30db215af7e4f3f8db8169c63c4418620character06typesmghd.ab, useful for unpackers
     "download_base_assets":true, // Whether to download base assets (which are required to open the game)
     "download_add_assets":true, // Whether to download additional assets (which are required for the full gameplay experience)
     "download_passivity_assets":false, // Whether to download optional assets (hd picture, voice, etc.)
     "timeout":30, // Timeout before retrying
     "max_retry":10, // Max retry times
     "processes":16, // Number of simutaneous processes
-    "download_resdata":true, // Whether to download resdata.zip from github repo. If false, you need to download it manually and put under this directory.
-    "resdata_url":"https://raw.githubusercontent.com/gf-data-tools/gf-resource-downloader/main/resdata.zip", // Where to download resdata.zip, by default the original repo.
 }

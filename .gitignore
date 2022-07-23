@@ -1,4 +1,5 @@
 build
 dist
 output
-downloader.log
+downloader.log*
+resdata/
