@@ -1,4 +1,4 @@
-name: PreReleases
+name: Pack Artifact
 
 on: 
   schedule:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  PackArtifact:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
@@ -20,8 +20,10 @@ jobs:
     - name: Pack Resdata
       run: |
         python pack_resdata.py
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+    - name: Upload
+      uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        name: resdata.zip
-        path: resdata.zip
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "ResData"
+        prerelease: true
+        files: resdata.zip

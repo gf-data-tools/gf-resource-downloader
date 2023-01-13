@@ -1,13 +1,13 @@
-name: PreReleases
+name: Releases
 
 on: 
   push:
     paths-ignore:
-      - "resdata.zip"
+      - "/.github"
   workflow_dispatch:
 
 jobs:
-  build:
+  BuildExecutable:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
