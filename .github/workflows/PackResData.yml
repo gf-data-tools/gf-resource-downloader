@@ -1,0 +1,27 @@
+name: PreReleases
+
+on: 
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v2.2.2
+      with:
+        python-version: '3.8'
+    - name: Install Python dependencies
+      run: |
+        pip install -r requirements.txt
+    - name: Pack Resdata
+      run: |
+        python pack_resdata.py
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: resdata.zip
+        path: resdata.zip
