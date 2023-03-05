@@ -16,16 +16,25 @@ def setup_mp_logging():
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Arguments will override corresponding settings in config.json5")
+    parser = argparse.ArgumentParser(
+        description="Arguments will override corresponding settings in config.json5"
+    )
     parser.add_argument("--output", type=str, help="Output directory")
     parser.add_argument(
-        "--region", type=str, help="Server region, the program will read resdata/{$REGION}_resdata.json to find assets"
+        "--region",
+        type=str,
+        help="Server region, the program will read resdata/{$REGION}_resdata.json to find assets",
     )
     parser.add_argument(
-        "--downloadres", type=int, help="Whether to download resdata.zip, 1 for true and 0 for false", metavar="0/1"
+        "--downloadres",
+        type=int,
+        help="Whether to download resdata.zip, 1 for true and 0 for false",
+        metavar="0/1",
     )
     parser.add_argument(
-        "--url", type=str, help="URL for downloading resdata.zip, will override download_resdata if given"
+        "--url",
+        type=str,
+        help="URL for downloading resdata.zip, will override download_resdata if given",
     )
     parser.add_argument(
         "--abname",
@@ -37,12 +46,20 @@ def parse_args():
         "Assets",
         description="Select assets you want to download (base/add/passivity), all settings in config.json5 will be overrided if any is passed",
     )
-    group.add_argument("-b", action="store_true", help="Download base assets (required to open the game)")
     group.add_argument(
-        "-a", action="store_true", help="Download additional assets (required for full gameplay experience)"
+        "-b",
+        action="store_true",
+        help="Download base assets (required to open the game)",
     )
     group.add_argument(
-        "-p", action="store_true", help="Download passivity assets (optional assets: hd picture, voice, etc.)"
+        "-a",
+        action="store_true",
+        help="Download additional assets (required for full gameplay experience)",
+    )
+    group.add_argument(
+        "-p",
+        action="store_true",
+        help="Download passivity assets (optional assets: hd picture, voice, etc.)",
     )
     group = parser.add_argument_group("Downloader related")
     group.add_argument("--timeout", type=float, help="Timeout before retry")
@@ -63,7 +80,11 @@ def parse_args():
     if args.abname is not None:
         config["use_abname"] = args.abname
     if args.b or args.a or args.p:
-        config["download_base_assets"], config["download_add_assets"], config["download_passivity_assets"] = (
+        (
+            config["download_base_assets"],
+            config["download_add_assets"],
+            config["download_passivity_assets"],
+        ) = (
             args.b,
             args.a,
             args.p,
@@ -80,7 +101,9 @@ def parse_args():
 if __name__ == "__main__":
     config = parse_args()
     setup_mp_logging()
-    downloader = Downloader(n_jobs=config["processes"], timeout=config["timeout"], retry=config["max_retry"])
+    downloader = Downloader(
+        n_jobs=config["processes"], timeout=config["timeout"], retry=config["max_retry"]
+    )
 
     out_dir = config["destination"]
     os.makedirs(out_dir, exist_ok=True)
@@ -90,7 +113,9 @@ if __name__ == "__main__":
         logger.info("Downloading compressed resdata from github")
         downloader.download([[resdata_url, "./resdata.zip"]])
     else:
-        logger.warning(f'Using local resdata/{config["region"]}_resdata.json, please ensure that it is up-to-date')
+        logger.warning(
+            f'Using local resdata/{config["region"]}_resdata.json, please ensure that it is up-to-date'
+        )
     zipfile.ZipFile("resdata.zip").extractall("./resdata")
     data = zipfile.ZipFile("resdata.zip").read(f'{config["region"]}_resdata.json')
     with open(f'resdata/{config["region"]}_resdata.json', "r", encoding="utf-8") as f:
@@ -111,7 +136,9 @@ if __name__ == "__main__":
             resname = bundle["resname"] + ".ab"
             abname = bundle["assetBundleName"] + ".ab"
             size = bundle["sizeOriginal"]
-            res_path = os.path.join(out_dir, abname if config["use_abname"] else resname)
+            res_path = os.path.join(
+                out_dir, abname if config["use_abname"] else resname
+            )
             if os.path.exists(res_path):
                 if os.path.getsize(res_path) == size:
                     logger.info(f"File {resname} already exists, thus will be skipped")
@@ -123,9 +150,11 @@ if __name__ == "__main__":
     for bundle in res_data["bytesData"]:
         if bundle["fileInABC"] in selected_id:
             resname = bundle["resname"] + ".dat"
-            abname = bundle["fileName"] + ".ab"
+            abname = bundle["fileName"] + ".dat"
             size = bundle["sizeCompress"]
-            res_path = os.path.join(out_dir, abname if config["use_abname"] else resname)
+            res_path = os.path.join(
+                out_dir, abname if config["use_abname"] else resname
+            )
             if os.path.exists(res_path):
                 if os.path.getsize(res_path) == size:
                     logger.info(f"File {resname} already exists, thus will be skipped")
