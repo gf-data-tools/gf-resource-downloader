@@ -111,6 +111,7 @@ if __name__ == "__main__":
     if config["download_resdata"] is True:
         print("Downloading compressed resdata from github")
         logger.info("Downloading compressed resdata from github")
+        Path("resdata.zip").unlink(missing_ok=True)
         downloader.download([[resdata_url, "./resdata.zip"]])
     else:
         logger.warning(
