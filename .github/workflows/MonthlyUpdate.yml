@@ -1,0 +1,25 @@
+name: 'Monthly Update Action'
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *'
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Update
+      run: |
+        date > .update
+    - name: Commit files
+      run: |
+        git config --local user.name github-actions[bot]
+        git config --local user.email github-actions[bot]@users.noreply.github.com
+        git status
+        git add .update
+        git commit -m "Monthly update"
+        git log
+        git push
